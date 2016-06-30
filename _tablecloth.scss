@@ -1,0 +1,30 @@
+$tablecloth-rows: 8;
+$tablecloth-columns: 8;
+$tablecloth-width: 100%;
+$tablecloth-height: 100%;
+
+$tablecloth-col-width: $tablecloth-width / $tablecloth-columns;
+$tablecloth-row-height: $tablecloth-height / $tablecloth-rows;
+
+@mixin tablecloth-init() {
+  * {
+    box-sizing: border-box;
+  }
+
+  html, body {
+    height: $tablecloth-height;
+    width: $tablecloth-width;
+  }
+}
+
+@mixin tablecloth-position($left, $top, $right, $bottom) {
+  position: absolute;
+  left: ( $left - 1 ) * $tablecloth-col-width;
+  top: ( $top - 1 ) * $tablecloth-row-height;
+  width: get-dimension($left, $right) * $tablecloth-col-width;
+  height: get-dimension($top, $bottom) * $tablecloth-row-height;
+}
+
+@function get-dimension($x1, $x2) {
+  @return $x2 - $x1 + 1;
+}
