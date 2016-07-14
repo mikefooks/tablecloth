@@ -20,24 +20,34 @@ $row-height: $tablecloth-height / $tablecloth-rows;
 
 @mixin tablecloth-container() {
   display: block;
-  @include tablecloth-position(1, 8, 1, 8);
+  @include tablecloth-position(1, 8, 1, 8, 0);
 }
 
-@mixin tablecloth-position($args...) {
-  @if length($args) == 4 {
-    $left: nth($args, 1);
-    $right: nth($args, 2);
-    $top: nth($args, 3);
-    $bottom: nth($args, 4);
+@mixin tablecloth-position($left, $right, $top, $bottom, $margins...) {
+  position: absolute;
 
-    position: absolute;
-    left: ( $left - 1 ) * $col-width;
-    top: ( $top - 1 ) * $row-height;
-    width: _get-dimension($left, $right) * $col-width;
-    height: _get-dimension($top, $bottom) * $row-height;
+  @if length($margins) == 1 {
+    $margin-width: nth($margins, 1) * $col-width;
+    $margin-height: nth($margins, 1) * $row-height;
+
+    left: ($left - 1) * $col-width - $margin-width;
+    top: ($top - 1) * $row-height - $margin-height;
+    margin: $margin-height $margin-width;
+    width: _dimension($left, $right) * $col-width - 2 * $margin-width;
+    height: _dimension($top, $bottom) * $row-height - 2 * $margin-height;;
   }
+
+  @if length($margins) == 2 {
+    $margin-width: nth($margins, 1);
+    $margin-height: nth($margins, 2);
+
+    margin: $margin-height $margin-width;
+    width: _dimension($left, $right) * $col-width - 2 * $margin-width;
+    height: _dimension($top, $bottom) * $row-height - 2 * $margin-height;;
+  }
+
 }
 
-@function _get-dimension($x1, $x2) {
+@function _dimension($x1, $x2) {
   @return $x2 - $x1 + 1;
 }
