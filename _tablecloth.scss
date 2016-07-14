@@ -1,10 +1,11 @@
+@import "normalize";
+
 $tablecloth-rows: 8;
 $tablecloth-columns: 8;
 $tablecloth-width: 100%;
 $tablecloth-height: 100%;
-
-$tablecloth-col-width: $tablecloth-width / $tablecloth-columns;
-$tablecloth-row-height: $tablecloth-height / $tablecloth-rows;
+$col-width: $tablecloth-width / $tablecloth-columns;
+$row-height: $tablecloth-height / $tablecloth-rows;
 
 @mixin tablecloth-init() {
   * {
@@ -17,14 +18,26 @@ $tablecloth-row-height: $tablecloth-height / $tablecloth-rows;
   }
 }
 
-@mixin tablecloth-position($left, $top, $right, $bottom) {
-  position: absolute;
-  left: ( $left - 1 ) * $tablecloth-col-width;
-  top: ( $top - 1 ) * $tablecloth-row-height;
-  width: get-dimension($left, $right) * $tablecloth-col-width;
-  height: get-dimension($top, $bottom) * $tablecloth-row-height;
+@mixin tablecloth-container() {
+  display: block;
+  @include tablecloth-position(1, 8, 1, 8);
 }
 
-@function get-dimension($x1, $x2) {
+@mixin tablecloth-position($args...) {
+  @if length($args) == 4 {
+    $left: nth($args, 1);
+    $right: nth($args, 2);
+    $top: nth($args, 3);
+    $bottom: nth($args, 4);
+
+    position: absolute;
+    left: ( $left - 1 ) * $col-width;
+    top: ( $top - 1 ) * $row-height;
+    width: _get-dimension($left, $right) * $col-width;
+    height: _get-dimension($top, $bottom) * $row-height;
+  }
+}
+
+@function _get-dimension($x1, $x2) {
   @return $x2 - $x1 + 1;
 }
