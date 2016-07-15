@@ -18,34 +18,35 @@ $row-height: $tablecloth-height / $tablecloth-rows;
   }
 }
 
-@mixin tablecloth-container() {
-  display: block;
-  @include tablecloth-position(1, 8, 1, 8, 0);
-}
-
 @mixin tablecloth-position($left, $right, $top, $bottom, $margins...) {
   position: absolute;
+  left: ($left - 1) * $col-width;
+  top: ($top - 1) * $row-height;
+  right: ($tablecloth-columns - $right) * $col-width;
+  bottom: ($tablecloth-rows - $bottom) * $row-height;
+  height: auto;
+  width: auto;
 
   @if length($margins) == 1 {
     $margin-width: nth($margins, 1) * $col-width;
     $margin-height: nth($margins, 1) * $row-height;
 
-    left: ($left - 1) * $col-width - $margin-width;
-    top: ($top - 1) * $row-height - $margin-height;
     margin: $margin-height $margin-width;
-    width: _dimension($left, $right) * $col-width - 2 * $margin-width;
-    height: _dimension($top, $bottom) * $row-height - 2 * $margin-height;;
   }
 
   @if length($margins) == 2 {
-    $margin-width: nth($margins, 1);
-    $margin-height: nth($margins, 2);
+    $margin-width: nth($margins, 1) * $col-width;
+    $margin-height: nth($margins, 2) * $row-height;
 
     margin: $margin-height $margin-width;
-    width: _dimension($left, $right) * $col-width - 2 * $margin-width;
-    height: _dimension($top, $bottom) * $row-height - 2 * $margin-height;;
   }
 
+  @if length($margins) == 4 {
+    margin-left: nth($margins, 1) * $col-width;
+    margin-right: nth($margins, 2) * $col-width;
+    margin-top: nth($margins, 3) * $row-height;
+    margin-bottom: nth($margins, 4) * $row-height;
+  }
 }
 
 @function _dimension($x1, $x2) {
