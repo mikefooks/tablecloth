@@ -1,10 +1,10 @@
 @import "normalize";
 
-$tablecloth-rows: 8;
-$tablecloth-columns: 8;
-$tablecloth-width: 100%;
-$tablecloth-height: 100%;
-$col-width: $tablecloth-width / $tablecloth-columns;
+$tablecloth-rows: 12;
+$tablecloth-columns: 12;
+$tablecloth-width: 61.8%;
+$tablecloth-height: 36rem;
+$col-width: 100% / $tablecloth-columns;
 $row-height: $tablecloth-height / $tablecloth-rows;
 
 @mixin tablecloth-init() {
@@ -14,7 +14,6 @@ $row-height: $tablecloth-height / $tablecloth-rows;
 
   html, body {
     height: 100%;
-    width: 100%;
   }
 }
 
@@ -22,14 +21,20 @@ $row-height: $tablecloth-height / $tablecloth-rows;
   position: absolute;
   height: $tablecloth-height;
   width: $tablecloth-width;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
 }
 
 @mixin tablecloth-position($left, $right, $top, $bottom, $margins...) {
-  position: absolute;
-  left: ($left - 1) * $col-width;
-  top: ($top - 1) * $row-height;
+  position: absolute;;
+  left: $left * $col-width;
+  top: $top * $row-height;
   right: ($tablecloth-columns - $right) * $col-width;
-  bottom: ($tablecloth-rows - $bottom) * $row-height;;
+  bottom: ($tablecloth-rows - $bottom) * $row-height;
   height: auto;
   width: auto;
 
