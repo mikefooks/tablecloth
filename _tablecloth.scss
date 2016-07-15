@@ -54,7 +54,3 @@ $row-height: $tablecloth-height / $tablecloth-rows;
     margin-bottom: nth($margins, 4) * $row-height;
   }
 }
-
-@function _dimension($x1, $x2) {
-  @return $x2 - $x1 + 1;
-}
