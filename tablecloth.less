@@ -1,0 +1,61 @@
+@import "normalize";
+
+@tablecloth-rows: 12;
+@tablecloth-columns: 12;
+@tablecloth-width: 100%;
+@tablecloth-height: 36rem;
+@col-width: 100% / @tablecloth-columns;
+@row-height: @tablecloth-height / @tablecloth-rows;
+
+.tablecloth-init() {
+  * {
+    box-sizing: border-box;
+  }
+
+  html, body {
+    height: 100%;
+  }
+}
+
+.tablecloth-container() {
+  position: absolute;
+  height: @tablecloth-height;
+  width: @tablecloth-width;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+}
+
+.tablecloth-position(@left; @right; @top; @bottom; @margins...) {
+  position: absolute;
+  left: @left * @col-width;
+  top: @top * @row-height;
+  right: (@tablecloth-columns - @right) * @col-width;
+  bottom: (@tablecloth-rows - @bottom) * @row-height;
+  width: auto;
+  height: auto;
+
+  & when (length(@margins) = 1) {
+    @margin-cols: @margins * @col-width;
+    @margin-rows: @margins * @row-height;
+
+    margin: @margin-rows @margin-cols;
+  }
+
+  & when (length(@margins) = 2) {
+    @margin-cols: extract(@margins, 1) * @col-width;
+    @margin-rows: extract(@margins, 2) * @row-height;
+
+    margin: @margin-rows @margin-cols;
+  }
+
+  & when(length(@margins) = 4) {
+    margin-left: extract(@margins, 1) * @col-width;
+    margin-right: extract(@margins, 2) * @col-width;
+    margin-top: extract(@margins, 3) * @row-height;
+    margin-bottom: extract(@margins, 4) * @row-height;
+  }
+}
