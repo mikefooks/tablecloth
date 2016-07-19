@@ -2,10 +2,24 @@
 
 @tablecloth-rows: 12;
 @tablecloth-columns: 12;
-@tablecloth-width: 100%;
-@tablecloth-height: 36rem;
-@col-width: 100% / @tablecloth-columns;
-@row-height: @tablecloth-height / @tablecloth-rows;
+@tablecloth-width: 50%;
+@tablecloth-height: 50%;
+
+.set-width-var();
+.set-width-var() when (ispercentage(@tablecloth-width)) {
+  @col-width: 100% / @tablecloth-columns;
+}
+.set-width-var() when not(ispercentage(@tablecloth-width)) {
+  @col-width: @tablecloth-width / @tablecloth-columns;
+}
+
+.set-height-var();
+.set-height-var() when (ispercentage(@tablecloth-height)) {
+  @row-height: 100% / @tablecloth-rows;
+}
+.set-height-var() when not(ispercentage(@tablecloth-height)) {
+  @row-height: @tablecloth-height / @tablecloth-rows;
+}
 
 .tablecloth-init() {
   * {
@@ -13,6 +27,7 @@
   }
 
   html, body {
+    width: 100%;
     height: 100%;
   }
 }
@@ -52,7 +67,7 @@
     margin: @margin-rows @margin-cols;
   }
 
-  & when(length(@margins) = 4) {
+  & when (length(@margins) = 4) {
     margin-left: extract(@margins, 1) * @col-width;
     margin-right: extract(@margins, 2) * @col-width;
     margin-top: extract(@margins, 3) * @row-height;
